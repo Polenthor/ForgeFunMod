@@ -1,0 +1,13 @@
+{
+  "item.fun.voltirot": "Voltirot Gem",
+
+
+  "block.fun.voltirot_block": "Voltirot Block",
+  "block.fun.voltirot_deepslate_ore": "Voltirot Deepslate Ore",
+  "block.fun.voltirot_ore" : "Voltirot Ore",
+
+
+  "creativetab.fun.fun_items" : "Fun Items",
+  "creativetab.fun.fun_blocks" : "Fun Blocks"
+
+}
