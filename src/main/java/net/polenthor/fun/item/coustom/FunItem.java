@@ -12,22 +12,21 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.polenthor.fun.block.ModBlocks;
 
 import java.util.Map;
 import java.util.Objects;
 
 public class FunItem extends Item {
+    private static final Map<Block, Block> FUN_MAP =
+            Map.of(
+                    Blocks.STONE, Blocks.AIR,
+                    Blocks.END_STONE, Blocks.END_STONE_BRICKS,
+                    Blocks.DEEPSLATE, Blocks.AIR,
+                    Blocks.IRON_BLOCK, Blocks.DIAMOND_BLOCK,
+                    Blocks.DIRT, ModBlocks.VOLTIROT_BLOCK.get()
+            );
 
-     private static final Map<Block, Block> FUN_MAP =
-             Map.of(
-                     Blocks.STONE, Blocks.CHISELED_SANDSTONE,
-                     Blocks.BEDROCK, Blocks.SAND,
-                     Blocks.DEEPSLATE, Blocks.ACACIA_FENCE,
-                     Blocks.DIRT, Blocks.DIAMOND_BLOCK
-
-
-
-                     );
     public FunItem(Properties pProperties) {
         super(pProperties);
     }
@@ -36,18 +35,17 @@ public class FunItem extends Item {
     public InteractionResult useOn(UseOnContext pContext) {
         Level level = pContext.getLevel();
         Block clickedBlock = level.getBlockState(pContext.getClickedPos()).getBlock();
-if(FUN_MAP.containsKey(clickedBlock)) {
-    if (level.isClientSide()) {
-        level.setBlockAndUpdate(pContext.getClickedPos(),FUN_MAP.get(clickedBlock).defaultBlockState());
 
-        pContext.getItemInHand().hurtAndBreak(1,((ServerLevel) level), ((ServerPlayer) pContext.getPlayer()),
-                item -> pContext.getPlayer().onEquippedItemBroken(item, EquipmentSlot.MAINHAND));
+        if(FUN_MAP.containsKey(clickedBlock)) {
+            if(!level.isClientSide()) {
+                level.setBlockAndUpdate(pContext.getClickedPos(), FUN_MAP.get(clickedBlock).defaultBlockState());
 
-                level.playSound(null,pContext.getClickedPos(), SoundEvents.ANVIL_USE, SoundSource.BLOCKS);
-    }
-}
+                pContext.getItemInHand().hurtAndBreak(1, ((ServerLevel) level), ((ServerPlayer) pContext.getPlayer()),
+                        item -> pContext.getPlayer().onEquippedItemBroken(item, EquipmentSlot.MAINHAND));
 
-
+                level.playSound(null, pContext.getClickedPos(), SoundEvents.GRINDSTONE_USE, SoundSource.BLOCKS);
+            }
+        }
 
         return InteractionResult.SUCCESS;
     }
