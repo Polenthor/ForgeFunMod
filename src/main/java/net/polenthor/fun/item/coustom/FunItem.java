@@ -26,7 +26,7 @@ public class FunItem extends Item {
                     Blocks.IRON_BLOCK, Blocks.DIAMOND_BLOCK,
                     Blocks.DIRT, ModBlocks.VOLTIROT_BLOCK.get()
             );
-
+// Dont Forget ".get()"
     public FunItem(Properties pProperties) {
         super(pProperties);
     }
